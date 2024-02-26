@@ -1,0 +1,21 @@
+{
+    "users":[
+        {
+            "id" : 1,
+            "name":"John Doe",
+            "age":30,
+            "email":"john.doe@example.com",
+            "cpf": "12345678901",
+            "birth_date": "1"
+        },
+        {
+            "id" : 2,
+            "name":"Maria Silva",
+            "age":25,
+            "email":"maria.silva@example.com",
+            "cpf": "32848923809",
+            "birth_date": "1"
+        }
+      
+    ]
+}

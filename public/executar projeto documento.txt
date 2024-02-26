@@ -1,0 +1,10 @@
+Anotações Projeto React DataTable
+rodar endpoint: json-server --watch db.json --port 3030
+problemas ao rodar endpoint no windows, executar o windows powershell:
+
+Abra o powershell do windows como administrador e execute o comando Set-ExecutionPolicy RemoteSigned.
+
+Depois rode o comando get-ExecutionPolicy e verifique se "RemoteSigned" foi retornado como resposta. Agora seu computador pode executar scripts assinados por terceiros. Tente rodar o json-server novamente após esse processo.
+
+Se algo continua errado, poste aqui! Caso contrário, bons estudos!
+
