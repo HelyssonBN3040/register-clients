@@ -6,7 +6,6 @@ import { createBrowserRouter, RouterProvider, Route, Navigate } from "react-rout
 //Pagina de Erro
 import ErrorPage from './Pages/Error/ErrorPage.jsx'
 import DataTablePage from './Pages/DataTable/DataTablePage.jsx'
-import LoginPage from './Pages/Login/LoginPage.jsx'
 
 const router = createBrowserRouter([
   {
