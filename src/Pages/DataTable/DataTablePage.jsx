@@ -70,7 +70,7 @@ const DataTablePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      axios.get("http://localhost:3030/users")
+      axios.get("https://api-data-testing-445c2ed2517d.herokuapp.com/users")
         .then(res => {
           setRecords(res.data);
           setFilteredRecords(res.data); // Garanta que os dados filtrados também sejam definidos
