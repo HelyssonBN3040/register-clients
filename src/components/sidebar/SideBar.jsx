@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../sidebar/Sidebar.css'
+import "../sidebar/SideBar.css"
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Button } from 'react-bootstrap';
 
