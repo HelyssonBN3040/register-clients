@@ -1,5 +1,7 @@
 Anotações Projeto React DataTable
-rodar endpoint: json-server --watch db.json --port 3030
+rodar endpoint: 
+npm install -g json-server
+json-server --watch db.json --port 3030
 problemas ao rodar endpoint no windows, executar o windows powershell:
 
 Abra o powershell do windows como administrador e execute o comando Set-ExecutionPolicy RemoteSigned.

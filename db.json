@@ -3,19 +3,32 @@
         {
             "id" : 1,
             "name":"John Doe",
-            "age":30,
-            "email":"john.doe@example.com",
-            "cpf": "12345678901",
-            "birth_date": "1"
+            "cpf": "00000000000"
         },
         {
             "id" : 2,
             "name":"Maria Silva",
-            "age":25,
-            "email":"maria.silva@example.com",
-            "cpf": "32848923809",
-            "birth_date": "1"
+            "cpf": "00000000000" 
+        },
+        {
+            "id" : 3,
+            "name":"Maria Souza Mendes",
+            "cpf": "00000000000" 
+        },
+        {
+            "id" : 4,
+            "name":"João Pedro de Souza",
+            "cpf": "00000000000" 
+        },
+        {
+            "id" : 5,
+            "name":"Henrique Kaue Silva Mendes",
+            "cpf": "00000000000" 
+        },
+        {
+            "id" : 6,
+            "name":"Otavio Celestino Silva Oliveira",
+            "cpf": "00000000000" 
         }
-      
     ]
 }
