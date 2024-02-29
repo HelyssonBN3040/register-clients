@@ -24,7 +24,7 @@ const Sidebar = () => {
           <div className="sidebar-footer">
             <hr className='text-secondary' />
             <i className='bi bi-person fs-5'></i>
-            <span> Helysson</span>
+            <span> Administrador</span>
           </div>
         </div>
       </div>

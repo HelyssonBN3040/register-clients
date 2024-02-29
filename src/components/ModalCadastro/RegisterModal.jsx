@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-function ResgiterModal() {
+function ResgiterModal({ onAddUser, records }) {
     const [show, setShow] = useState(false);
     const [nomeCompleto, setNomeCompleto] = useState('');
     const [cpf, setCpf] = useState('');
@@ -21,7 +21,18 @@ function ResgiterModal() {
         console.log('CPF:', cpf);
         console.log('Endereço:', endereco);
         console.log('CEP:', cep);
+        // Encontrar o maior ID atual na lista de dados
+        const maxId = Math.max(...records.map(item => item.id));
+        // Criar um objeto com os dados do novo usuário
+        const newUser = {
+            id: maxId + 1, // Gere um ID único para o novo usuário (isso é só um exemplo)
+            name: nomeCompleto,
+            cpf: cpf
+            // Adicione outros campos conforme necessário
+        };
 
+        // Chamar a função onAddUser para adicionar o novo usuário
+        onAddUser(newUser);
         // Fechar o modal após atualizar
         handleClose();
     };
@@ -142,7 +153,7 @@ function ResgiterModal() {
                     <Button variant="secondary" onClick={handleClose}>
                         Fechar
                     </Button>
-                    <Button variant="primary" onClick={handleAtualizar}>
+                    <Button onClick={handleAtualizar}>
                         Adicionar
                     </Button>
                 </Modal.Footer>
