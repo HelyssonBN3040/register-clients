@@ -5,18 +5,33 @@ import DataTable from 'react-data-table-component'
 import SideBar from '../../components/sidebar/SideBar.jsx'
 import Modal from '../../components/Modal/Modal.jsx'
 import ResgiterModal from '../../components/ModalCadastro/RegisterModal.jsx'
+import axios from 'axios'
 
 const DataTablePage = () => {
 
+  const [data, setData] = useState([])
   //Alterar Cores dos inputs de aprovado ou negado
   const [selectedOptions, setSelectedOptions] = useState({});
+  const [records, setRecords] = useState([]);
 
-  const handleSelectChange = (id, value) => {
+
+  useEffect(() => {
+    axios.get('https://backend-julho-2024.onrender.com/item')
+      .then(res => {
+        setData(res.data)
+        setRecords(res.data)
+      })
+      .catch(error => console.error("Erro na requisição: ", error))
+  }, [])
+
+
+  const handleSelectChange = (_id, value) => {
     setSelectedOptions({
       ...selectedOptions,
-      [id]: value
+      [_id]: value
     });
   };
+
   //Alterar Cores dos inputs de aprovado ou negado
   const getSelectClass = (id) => {
     const selectedOption = selectedOptions[id];
@@ -28,19 +43,14 @@ const DataTablePage = () => {
       return 'bg-white';
     }
     else {
-      return '';
+      return 'bg-white';
     }
   };
 
   const columns = [
     {
-      name: 'Id',
-      selector: row => row.id,
-      sortable: true
-    },
-    {
       name: 'Nome',
-      selector: row => row.name,
+      selector: row => row.nome,
       sortable: true
     },
     {
@@ -50,9 +60,9 @@ const DataTablePage = () => {
     {
       name: "Status",
       cell: row => <select name="status"
-        className={`form-select ${getSelectClass(row.id)}`}
-        value={selectedOptions[row.id] || ''}
-        onChange={(e) => handleSelectChange(row.id, e.target.value)}>
+        className={`form-select ${getSelectClass(row._id)}`}
+        value={selectedOptions[row._id] || ''}
+        onChange={(e) => handleSelectChange(row._id, e.target.value)}>
         <option value="select">Selecione...</option>
         <option value="aprovado" >Aprovado</option>
         <option value="negado">Negado</option>
@@ -60,31 +70,10 @@ const DataTablePage = () => {
     },
     {
       name: "Editar",
-      cell: row => <Modal />
+      cell: row => <Modal key={row._id}/>
     }
 
   ]
-
-  const initialData = [
-    {
-      id: 1,
-      name: "Helysson Cavalcante",
-      cpf: "00000000001"
-    },
-    {
-      id: 2,
-      name: "Mabyle Jeandressa",
-      cpf: "00000000002"
-    },
-    {
-      id: 3,
-      name: "João Victor Almeida",
-      cpf: "00000000003"
-    },
-    // Restante dos dados...
-  ];
-
-  const [records, setRecords] = useState(initialData);
 
   const handleAddUser = (newUser) => {
     setRecords([...records, newUser]);
@@ -93,9 +82,9 @@ const DataTablePage = () => {
   //função de filtro
   function handleFilterName(e) {
     const searchTerm = e.target.value.toLowerCase();
-    const newData = initialData.filter(row => {
+    const newData = data.filter(row => {
       return (
-        row.name.toLowerCase().includes(searchTerm) ||
+        row.nome.toLowerCase().includes(searchTerm) ||
         row.cpf.includes(searchTerm)
       );
     });

@@ -1,41 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-function ResgiterModal({ onAddUser, records }) {
+function ResgiterModal() {
     const [show, setShow] = useState(false);
-    const [nomeCompleto, setNomeCompleto] = useState('');
+    const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
-    const [endereco, setEndereco] = useState(null);
+    const [endereco, setEndereco] = useState('');
     const [cep, setCep] = useState('');
+    const [erro, setErro] = useState('');
+    const [numero, setNumero] = useState('')
 
-    const [erro, setErro] = useState(null);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleAtualizar = () => {
-        // Aqui você pode fazer o que quiser com os dados preenchidos
-        console.log('Nome Completo:', nomeCompleto);
-        console.log('CPF:', cpf);
-        console.log('Endereço:', endereco);
-        console.log('CEP:', cep);
-        // Encontrar o maior ID atual na lista de dados
-        const maxId = Math.max(...records.map(item => item.id));
-        // Criar um objeto com os dados do novo usuário
-        const newUser = {
-            id: maxId + 1, // Gere um ID único para o novo usuário (isso é só um exemplo)
-            name: nomeCompleto,
-            cpf: cpf
-            // Adicione outros campos conforme necessário
-        };
 
-        // Chamar a função onAddUser para adicionar o novo usuário
-        onAddUser(newUser);
-        // Fechar o modal após atualizar
-        handleClose();
-    };
+
+
+
+    const handleAtualizar = () => {
+        const userData = {
+            nome,
+            cpf,
+            endereco,
+            cep,
+            numero,
+
+        };
+        axios.post('https://backend-julho-2024.onrender.com/item', userData)
+            .then(res => {
+                console.log('Usuário adicionado com sucesso:', res.data);
+                handleClose();
+                // Limpar os campos do formulário após adicionar o usuário
+                setNome();
+                setCpf();
+                setEndereco();
+                setCep();
+                setNumero()
+            })
+            .catch(error => {
+                console.error('Erro ao adicionar usuário:', error);
+                setErro('Erro ao adicionar usuário.');
+            });
+    }
 
     //Busca CEP
     const handleCepChange = (event) => {
@@ -90,14 +99,14 @@ function ResgiterModal({ onAddUser, records }) {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3" >
+                        <Form.Group className="mb-3">
                             <Form.Label>Nome Completo</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Digite o Nome Completo*"
                                 autoFocus
-                                value={nomeCompleto}
-                                onChange={(e) => setNomeCompleto(e.target.value)}
+                                value={nome}
+                                onChange={(e) => setNome(e.target.value)}
                                 required
                             />
                         </Form.Group>
@@ -117,7 +126,8 @@ function ResgiterModal({ onAddUser, records }) {
                                 type="text"
                                 placeholder="Digite o CEP*"
                                 value={cep}
-                                onChange={handleCepChange} onBlur={handleCepBlur}
+                                onChange={handleCepChange}
+                                onBlur={handleCepBlur}
                                 required
                             />
                         </Form.Group>
@@ -144,6 +154,8 @@ function ResgiterModal({ onAddUser, records }) {
                             <Form.Control
                                 type="number"
                                 placeholder="Numero*"
+                                value={numero}
+                                onChange={(e) => setNumero(e.target.value)}
                                 required
                             />
                         </Form.Group>
