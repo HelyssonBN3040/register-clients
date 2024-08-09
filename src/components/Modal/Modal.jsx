@@ -4,31 +4,33 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-function Example() {
+function ModalEdit({ itemId, itemNome, itemCpf, onUpdate }) {  // Adicionando onUpdate como prop
   const [show, setShow] = useState(false);
-  const [nome, setNome] = useState('');
-  const [cpf, setCpf] = useState('');
+  const [nome, setNome] = useState(itemNome || '');
+  const [cpf, setCpf] = useState(itemCpf || '');
   const [erro, setErro] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleAtualizar = (event) => {
+  const handleAtualizar = async (event) => {
     event.preventDefault();
-    const updatedData = {
-      nome,
-      cpf,
-    };
 
-    axios.put('https://backend-julho-2024.onrender.com/item', updatedData)
-      .then(res => {
-        console.log('Dados atualizados com sucesso:', res.data);
-        handleClose();
-      })
-      .catch(error => {
-        console.error('Erro ao atualizar dados:', error);
-        setErro('Erro ao atualizar dados.');
-      });
+    if (!itemId) {
+      setErro('ID do item não fornecido.');
+      return;
+    }
+
+    const updatedData = { nome, cpf };
+
+    try {
+      await axios.put(`https://backend-julho-2024.onrender.com/item/${itemId}`, updatedData);
+      onUpdate(itemId, updatedData);  // Chamando a função de atualização passada como prop
+      handleClose();
+    } catch (error) {
+      console.error('Erro ao atualizar dados:', error);
+      setErro('Erro ao atualizar dados.');
+    }
   };
 
   return (
@@ -84,4 +86,4 @@ function Example() {
   );
 }
 
-export default Example;
+export default ModalEdit;
