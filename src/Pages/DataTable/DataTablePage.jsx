@@ -5,7 +5,9 @@ import DataTable from 'react-data-table-component'
 import SideBar from '../../components/sidebar/SideBar.jsx'
 import Modal from '../../components/Modal/Modal.jsx'
 import ResgiterModal from '../../components/ModalCadastro/RegisterModal.jsx'
+import { TailSpin } from 'react-loader-spinner'
 import axios from 'axios'
+import ButtonDelete from '../../components/ButtonDelete/index.jsx'
 
 const DataTablePage = () => {
 
@@ -13,6 +15,7 @@ const DataTablePage = () => {
   //Alterar Cores dos inputs de aprovado ou negado
   const [selectedOptions, setSelectedOptions] = useState({});
   const [records, setRecords] = useState([]);
+  const [loading, setLoading] = useState(true)
 
 
   useEffect(() => {
@@ -20,6 +23,7 @@ const DataTablePage = () => {
       .then(res => {
         setData(res.data)
         setRecords(res.data)
+        setLoading(false)
       })
       .catch(error => console.error("Erro na requisição: ", error))
   }, [])
@@ -70,7 +74,11 @@ const DataTablePage = () => {
     },
     {
       name: "Editar",
-      cell: row => <Modal key={row._id}/>
+      cell: row => <Modal key={row._id} />
+    },
+    {
+      name: "Delete",
+      cell: row => <ButtonDelete key={row._id}/>
     }
 
   ]
@@ -98,20 +106,36 @@ const DataTablePage = () => {
       </div>
       <div className='ContainerDataTable'>
         <h1 className='text-center'>Lista de Pessoas</h1>
-        <DataTable
-          columns={columns}
-          data={records}
-          selectableRowsHighlight
-          highlightOnHover
-          fixedHeader
-          pagination
-          subHeader
-          actions={<ResgiterModal onAddUser={handleAddUser} records={records} />}
-          subHeaderComponent={<input type='text' placeholder='Pesquise por nome ou CPF' className='w-25 form-control' onChange={handleFilterName} />}
-        />
+        {
+          loading ? (
+            <div className='loading-spin'>
+              <TailSpin
+                height="40"
+                width="40"
+                color="#0D6EFD"
+                ariaLabel="loading"
+              />
+              <p>Carregando...</p>
+            </div>
+          ) : (
+
+            <DataTable
+              columns={columns}
+              data={records}
+              selectableRowsHighlight
+              highlightOnHover
+              fixedHeader
+              pagination
+              subHeader
+              actions={<ResgiterModal onAddUser={handleAddUser} records={records} />}
+              subHeaderComponent={<input type='text' placeholder='Pesquise por nome ou CPF' className='w-25 form-control' onChange={handleFilterName} />}
+            />
+          )
+        }
       </div>
     </div>
   )
+
 }
 
 export default DataTablePage;
